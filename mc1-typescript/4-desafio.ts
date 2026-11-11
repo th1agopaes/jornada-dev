@@ -3,11 +3,11 @@ const valor2 = "8.5";
 const valor3 = true;
 
 function paraNumero(valor: unknown): number {
-  if (typeof valor == "number") {
+  if (typeof valor === "number") {
     return valor;
   }
 
-  if (typeof valor == "string") {
+  if (typeof valor === "string") {
     return Number(valor);
   }
 
