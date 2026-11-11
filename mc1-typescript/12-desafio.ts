@@ -17,15 +17,16 @@ function media(notas: number[]): number {
 
 // requisito 4 (situacao)
 function situacao(m: number): Situacao {
+  if (Number.isNaN(m)) {
+    return "cursando";
+  }
   if (m >= 6) {
     return "aprovado";
   }
   if (m >= 4) {
     return "recuperacao";
   }
-  if (Number.isNaN(m)) {
-    return "cursando";
-  }
+
   return "reprovado";
 }
 
@@ -51,7 +52,9 @@ const disciplinas: Disciplina[] = [
 
 for (const d of disciplinas) {
   const [nome, m, sit] = resumo(d);
-  console.log(`Disciplina: ${nome}, Média: ${m.toFixed(1)}, Situação: ${sit}`);
+  console.log(
+    `Disciplina: ${nome}, Média: ${sit === "cursando" ? "N/A" : m.toFixed(1)}, Situação: ${sit}`,
+  );
 }
 
 const aprovadas = disciplinas.filter(
