@@ -11,7 +11,7 @@ export class Aluno {
   }
 
   adicionarNota(nota: number): boolean {
-    if (nota < 0 || nota > 10) {
+    if (Number.isNaN(nota) || nota < 0 || nota > 10) {
       return false;
     }
     this.#notas.push(nota);

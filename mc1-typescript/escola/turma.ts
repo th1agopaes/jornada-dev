@@ -11,8 +11,11 @@ export class Turma {
     return this.#alunos.filter((a) => a.situacao === "aprovado");
   }
 
-  get mediaGeral(): number {
+  get mediaGeral(): number | undefined {
     const comNotas = this.#alunos.filter((a) => a.situacao !== "cursando");
+    if (comNotas.length === 0) {
+      return undefined;
+    }
     const soma = comNotas.reduce((acc, a) => acc + a.media, 0);
     return soma / comNotas.length;
   }

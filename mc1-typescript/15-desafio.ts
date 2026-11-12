@@ -6,6 +6,7 @@ const ana = new Aluno("Ana");
 ana.adicionarNota(10);
 ana.adicionarNota(9);
 console.log("Nota 11 aceita?", ana.adicionarNota(11));
+console.log("Nota NaN aceita?", ana.adicionarNota(NaN));
 
 // Aluno para recuperação >=5 e <7
 const carlos = new Aluno("Carlos");
@@ -25,9 +26,7 @@ const alunos = [ana, carlos, joao];
 for (const a of alunos) {
   if (a.situacao === "cursando") {
     console.log(`${a.nome} está cursando.`);
-  }
-
-  if (a.situacao !== "cursando") {
+  } else {
     console.log(
       `${a.nome} está ${a.situacao} com média ${a.media.toFixed(2)}.`,
     );
@@ -40,4 +39,6 @@ console.log(`Alunos aprovados: ${apr.map((a) => a.nome).join(", ")}.`);
 
 // média geral da turma
 const mg = turma.mediaGeral;
-console.log(`Média geral da turma: ${mg.toFixed(2)}.`);
+console.log(
+  `Média geral da turma: ${mg?.toFixed(2) ?? "a turma não possui média geral"}.`,
+);
