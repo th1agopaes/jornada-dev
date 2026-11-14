@@ -5,13 +5,17 @@
   "scripts": {
     "check": "tsc",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "validar": "npm run lint && npm run check && npm test"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "type": "module",
   "devDependencies": {
+    "@biomejs/biome": "2.6.7",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"
   },
