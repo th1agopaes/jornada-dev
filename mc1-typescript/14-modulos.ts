@@ -1,4 +1,4 @@
-import { Poupanca, TAXA_PADRAO, type Descritivel } from "./banco/conta.ts";
+import { type Descritivel, Poupanca, TAXA_PADRAO } from "./banco/conta.ts";
 
 function mostrar(d: Descritivel): void {
   console.log(d.descrever());
