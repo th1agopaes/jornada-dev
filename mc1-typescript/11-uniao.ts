@@ -10,7 +10,7 @@ console.log(formatarNota("dispensado"));
 
 type Situacao = "aprovado" | "recuperacao" | "reprovado";
 
-let situacao: Situacao = "aprovado";
+const situacao: Situacao = "aprovado";
 console.log(situacao);
 
 type Avaliacao =

@@ -1,4 +1,4 @@
-import { Aluno } from "./aluno.ts";
+import type { Aluno } from "./aluno.ts";
 
 export class Turma {
   #alunos: Aluno[] = [];
