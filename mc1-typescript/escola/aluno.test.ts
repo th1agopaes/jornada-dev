@@ -7,7 +7,7 @@ describe("Aluno", () => {
     expect(ana.adicionarNota(10)).toBe(true);
   });
 
-  it("reucsa nota acima de 10, abaixo de 0 e NaN", () => {
+  it("recusa nota acima de 10, abaixo de 0 e NaN", () => {
     const ana = new Aluno("Ana");
     expect(ana.adicionarNota(11)).toBe(false);
     expect(ana.adicionarNota(-1)).toBe(false);
