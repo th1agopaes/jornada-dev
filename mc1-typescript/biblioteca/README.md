@@ -7,19 +7,19 @@ TypeScript puro, sem banco: tudo em memória. Feito com TDD (teste antes do cód
 
 Na pasta `mc1-typescript`:
 
-| Comando | O que faz |
-| --- | --- |
-| `npm run validar` | Biome + tsc + Vitest (o "botão verde") |
-| `node 21-formatura.ts` | Demonstração no terminal |
+| Comando                | O que faz                              |
+| ---------------------- | -------------------------------------- |
+| `npm run validar`      | Biome + tsc + Vitest (o "botão verde") |
+| `node 21-formatura.ts` | Demonstração no terminal               |
 
 ## Estrutura
 
-| Arquivo | Papel |
-| --- | --- |
-| `erros.ts` | Define as classes de erro de negócio do domínio (`LivroIndisponivelError`, `DevolucaoInvalidaError`, `LimiteDeEmprestimosError`). |
-| `livro.ts` | Modela a entidade `Livro` com estado encapsulado (`#situacao`), o tipo `Situacao` e suas regras próprias de empréstimo e devolução. |
-| `leitor.ts` | Define o contrato de dados (`interface Leitor`) com `id` e `nome` para representar quem pega livros emprestados. |
-| `biblioteca.ts` | Coordena o acervo, os leitores, as pesquisas e as regras cruzadas entre eles (usa o `Repositorio<T>` de `../repo`). |
+| Arquivo         | Papel                                                                                                                               |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `erros.ts`      | Define as classes de erro de negócio do domínio (`LivroIndisponivelError`, `DevolucaoInvalidaError`, `LimiteDeEmprestimosError`).   |
+| `livro.ts`      | Modela a entidade `Livro` com estado encapsulado (`#situacao`), o tipo `Situacao` e suas regras próprias de empréstimo e devolução. |
+| `leitor.ts`     | Define o contrato de dados (`interface Leitor`) com `id` e `nome` para representar quem pega livros emprestados.                    |
+| `biblioteca.ts` | Coordena o acervo, os leitores, as pesquisas e as regras cruzadas entre eles (usa o `Repositorio<T>` de `../repo`).                 |
 
 ## Decisões
 
