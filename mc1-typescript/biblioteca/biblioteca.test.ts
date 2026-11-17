@@ -32,6 +32,11 @@ describe("Biblioteca", () => {
     expect(bib.disponiveis().map((l) => l.id)).toEqual([1, 2, 3]);
   });
 
+  it("acervo lista todos, emprestados ou não", () => {
+    bib.emprestar(1, 10);
+    expect(bib.acervo().map((l) => l.id)).toEqual([1, 2, 3]);
+  });
+
   it("emprestar tira o livro dos disponíveis e põe na lista do leitor", () => {
     bib.emprestar(1, 10);
     expect(bib.disponiveis().map((l) => l.id)).toEqual([2, 3]);
