@@ -2,7 +2,7 @@ export class LivroIndisponivelError extends Error {
   readonly livroId: number;
 
   constructor(livroId: number) {
-    super(`O livro ${livroId} não está disponivel`);
+    super(`O livro ${livroId} não está disponível`);
     this.name = "LivroIndisponivelError";
     this.livroId = livroId;
   }
