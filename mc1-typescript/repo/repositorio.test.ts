@@ -49,8 +49,7 @@ describe("Repositorio", () => {
 
   it("listar devolve uma cópia", () => {
     const copia = repo.listar();
-    copia.push;
-    ({ id: 2, titulo: "Nova tarefa" });
+    copia.push({ id: 2, titulo: "Nova tarefa" });
     expect(repo.tamanho).toBe(1);
   });
 });
