@@ -12,7 +12,7 @@ fn main() {
 
     // 2. shadowing: um `let` novo com o mesmo nome
     let espacos = "    ";
-    let mut espacos = espacos.len();
+    let espacos = espacos.len();
     println!("espaços: {espacos}");
 
     let x = 5;
