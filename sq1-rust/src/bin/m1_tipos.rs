@@ -33,6 +33,11 @@ fn main() {
     // 6. array: tamanho fixo, um tipo só
     let notas: [f64; 4] = [8.5, 7.0, 9.25, 6.0];
     let zeros = [0; 3];
-    println!("{:?} tem {} notas; a primeira é {}", notas, notas.len(), notas[0]);
+    println!(
+        "{:?} tem {} notas; a primeira é {}",
+        notas,
+        notas.len(),
+        notas[0]
+    );
     println!("{zeros:?}");
 }
