@@ -6,7 +6,7 @@ fn main() {
     let mut tentativas = 0;
     println!("{nome} começou com {tentativas} tentativas");
 
-    tentativas = tentativas + 1;
+    tentativas += 1;
     tentativas += 1;
     println!("agora são {tentativas}");
 
