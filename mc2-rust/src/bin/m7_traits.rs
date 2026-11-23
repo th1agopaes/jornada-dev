@@ -105,7 +105,7 @@ fn dois_tipos() {
     };
     println!("{} ({} XP)", mimico.grito(), mimico.xp);
     // -> Mímico ruge e avança! (25 XP)
-    mimico.receber(50); // o `saturating_sub`do método padrão para no 0
+    mimico.receber(50); // o `saturating_sub` do método padrão para no 0
     println!("vivo? {}", mimico.esta_vivo()); // -> vivo? false
 }
 

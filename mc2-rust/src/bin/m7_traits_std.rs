@@ -116,7 +116,7 @@ fn erro_proprio() {
     for erro in &erros {
         println!("Erro: {erro}"); // -> Erro: comando desconhecido: dançar / Erro: a quantidade...
     }
-    println!("{:?}", erros[1]); // ->QtdZero
+    println!("{:?}", erros[1]); // -> QtdZero
 }
 
 // --- 4. `From`: o `?` converte o erro sozinho ---------------------------------

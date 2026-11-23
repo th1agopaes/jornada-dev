@@ -64,7 +64,7 @@ impl Bau<u32> {
 
 fn struct_generica() {
     let mut ouro: Bau<u32> = Bau::new("sala 1", 150);
-    ouro.dobrar(); // só existe em Bau<u32>; num Bau<Strin> seria E0599
+    ouro.dobrar(); // só existe em Bau<u32>; num Bau<String> seria E0599
     println!("Baú da {}:", ouro.local()); // -> Baú da sala 1:
     println!("  {} de ouro", ouro.abrir()); // -> 300 de ouro
 
