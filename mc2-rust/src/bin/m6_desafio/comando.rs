@@ -1,7 +1,7 @@
 //! MC2 · Rust do zero — Módulo 6 · Exercício: o módulo `comando` (`comando.rs`)
 //! Objetivo: transformar a linha digitada num `Comando` ou num `ErroJogo`.
 
-// --- 1. Comandos e erros --------------------------
+// --- 1. Comandos e erros ---------------------------------
 
 pub enum Comando {
     Pegar { item: String, qtd: u32 },
@@ -34,7 +34,7 @@ impl ErroJogo {
     }
 }
 
-// --- 2. Lendo o comando --------------------------
+// --- 2. Lendo o comando ---------------------------------
 
 fn ler_item(verbo: &str, palavra: Option<&str>) -> Result<String, ErroJogo> {
     let item = palavra.ok_or(ErroJogo::FaltaItem(verbo.to_string()))?;
