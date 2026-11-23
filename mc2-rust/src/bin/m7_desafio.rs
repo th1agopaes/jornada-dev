@@ -167,10 +167,10 @@ fn golpe(atacante: &impl Combatente, alvo: &mut impl Combatente, rng: &mut impl 
     alvo.receber(dano);
     let nome = alvo.nome();
     let vida = alvo.vida();
-    println!(" {} causa {dano} ({nome}: {vida} HP)", atacante.nome());
+    println!("  {} causa {dano} ({nome}: {vida} HP)", atacante.nome());
 }
 
-// Genérico nos dois lados: serve também pra Inimigo contra Inimigo
+// Genérico nos dois lados: serve também para Inimigo contra Inimigo
 fn duelo(heroi: &mut impl Combatente, inimigo: &mut impl Combatente, rng: &mut impl Rng) -> bool {
     loop {
         golpe(heroi, inimigo, rng); // o `&mut heroi` vira `&` sozinho: o `golpe` só lê o atacante
@@ -189,7 +189,7 @@ fn duelo(heroi: &mut impl Combatente, inimigo: &mut impl Combatente, rng: &mut i
 fn main() {
     // `\` no fim da linha continua o texto sem a quebra e sem os espaços da linha seguinte
     let escalacao = "Slime 20 3 comum\nMímico muitos 6 elite\nGolem 40 6 elite\n\
-        Fantasma 25\nLich 60 11 lendário\nDragão 70 10 chefe";
+                           Fantasma 25\nLich 60 11 lendário\nDragão 70 10 chefe";
 
     let mut inimigos = Vec::new();
     for linha in escalacao.lines() {
@@ -200,7 +200,7 @@ fn main() {
     }
 
     let perigo = mais_perigoso(&inimigos[1], &inimigos[2]);
-    println!("Mais perigoso entre Golem e Dragão: {}", perigo.nome);
+    println!("Mais perigoso entre Golem e Dragão: {}", perigo.nome());
 
     let mut frieren = Heroi {
         nome: "Frieren".to_string(),
@@ -212,15 +212,13 @@ fn main() {
     // `&mut inimigos`: cada `inimigo` é um `&mut Inimigo`, então o duelo altera a vida dele
     for inimigo in &mut inimigos {
         println!("\nFrieren ({} HP) contra {inimigo}", frieren.vida());
-        {
-            if !duelo(&mut frieren, inimigo, &mut rng) {
-                println!("Frieren caiu diante do {}.", inimigo.nome());
-                return;
-            }
-            println!("{} derrotado!", inimigo.nome());
-            if inimigo.raridade >= Raridade::Elite {
-                println!("Um baú de recompensa aparece.");
-            }
+        if !duelo(&mut frieren, inimigo, &mut rng) {
+            println!("Frieren caiu diante do {}.", inimigo.nome());
+            return;
+        }
+        println!("{} derrotado!", inimigo.nome());
+        if inimigo.raridade >= Raridade::Elite {
+            println!("Um baú de recompensa aparece.");
         }
     }
     println!("\nTorneio vencido!");
