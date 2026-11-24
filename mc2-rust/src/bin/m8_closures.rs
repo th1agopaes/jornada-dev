@@ -28,7 +28,7 @@ fn captura() {
     // Só lê: a closure guarda um `&mochila`, e o dono continua podendo ler
     let mochila = vec!["poção", "grimório"];
     let mostrar = || println!("Mochila: {mochila:?}");
-    mostrar(); // -> Mochila: ["poção", "grimório"´]
+    mostrar(); // -> Mochila: ["poção", "grimório"]
     println!("Itens: {}", mochila.len()); // -> Itens: 2
 
     // Altera: a closure guarda um `&mut golpes` e por isso também precisa de `mut`
@@ -77,7 +77,7 @@ fn tres_traits() {
 
     let tesouro = String::from("Grimório do Zoltraak");
     // Devolver o `tesouro` move a String para fora da closure: ela vira `FnOnce`
-    println!("{}", abrir_bau(|| tesouro)); // -> O baú tinha: Grimório de Zoltraak
+    println!("{}", abrir_bau(|| tesouro)); // -> O baú tinha: Grimório do Zoltraak
 }
 
 // --- 4. Guardar e devolver: `impl Fn` e `Box<dyn Fn>` ---------------------------------

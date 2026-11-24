@@ -64,7 +64,7 @@ fn tres_jeitos() {
 
     // `iter_mut()`: empresta para alterar (`&mut u32`); é o que o `for v in &mut vidas` usa
     for vida in &mut vidas {
-        *vida += 10; // cura de gurpo
+        *vida += 10; // cura de grupo
     }
     println!("{vidas:?}"); // -> [40, 10, 55]
 
