@@ -18,6 +18,8 @@ enum Rank {
     S,
 }
 
+// `Debug` + `PartialEq`: pedidos pelos testes, que comparam e imprimem missões (seção 7)
+#[derive(Debug, PartialEq)]
 struct Missao {
     nome: String,
     rank: Rank,
@@ -41,6 +43,7 @@ impl fmt::Display for Missao {
 
 // --- 2. Lendo o mural ---------------------------------
 
+#[derive(Debug, PartialEq)] // o mesmo motivo: o teste compara o `Err` inteiro
 enum ErroMural {
     Incompleta(String),        // faltou campo na linha (guarda a linha)
     Rank(String),              // rank fora da lista (guarda o texto)
@@ -233,5 +236,155 @@ fn main() {
     println!("\n== Busca: \"FRIEREN\" ==");
     for linha in buscar("FRIEREN", &diario) {
         println!("{linha}");
+    }
+}
+
+// --- 7. Testes: lendo o mural ---------------------------------
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // Mural pequeno, só para os testes: uma missão de cada rank
+    const MURAL: &str = "Caçar slimes | C | 30 | Floresta\n\
+        Selar o Mímico | B | 120 | Masmorra\n\
+        Derrotar o golem | A | 200 | Masmorra\n\
+        Enfrentar o dragão | S | 900 | Montanha";
+
+    // Ajudantes: funções sem `#[test]` dentro do módulo de testes
+    fn missao(nome: &str, rank: Rank, recompensa: u32, local: &str) -> Missao {
+        Missao {
+            nome: nome.to_string(),
+            rank,
+            recompensa,
+            local: local.to_string(),
+        }
+    }
+
+    // `expect` pode aqui: se o mural de teste não ler, o bug é do próprio teste
+    fn mural() -> Vec<Missao> {
+        ler_mural(MURAL).expect("o mural de teste é válido")
+    }
+
+    #[test]
+    fn le_a_missao_e_apara_os_espacos() {
+        let lida = ler_missao("  Selar o Mímico |B|  120 | Masmorra ");
+        assert_eq!(lida, Ok(missao("Selar o Mímico", Rank::B, 120, "Masmorra")));
+    }
+
+    #[test]
+    fn recusa_linha_incompleta() {
+        let linha = "Colher ervas | C | 15";
+        let esperado = Err(ErroMural::Incompleta(linha.to_string()));
+        assert_eq!(ler_missao(linha), esperado);
+    }
+
+    #[test]
+    fn recusa_rank_desconhecido() {
+        let esperado = Err(ErroMural::Rank("Z".to_string()));
+        assert_eq!(ler_missao("Caçar ratos | Z | 10 | Vila"), esperado);
+    }
+
+    #[test]
+    fn recusa_recompensa_que_nao_e_numero() {
+        let lida = ler_missao("Colher ervas | C | quinze | Floresta");
+        assert!(matches!(lida, Err(ErroMural::Recompensa(_))));
+    }
+
+    #[test]
+    fn le_o_mural_inteiro_em_ordem() -> Result<(), ErroMural> {
+        let mural = ler_mural(MURAL)?;
+        assert_eq!(mural.len(), 4);
+        let dragao = missao("Enfrentar o dragão", Rank::S, 900, "Montanha");
+        assert_eq!(mural[3], dragao);
+        Ok(())
+    }
+
+    // Tudo ou nada: a primeira linha é boa, mas a segunda derruba o mural
+    #[test]
+    fn uma_linha_ruim_derruba_o_mural() {
+        let texto = "Caçar slimes | C | 30 | Floresta\nColher ervas | C | quinze | Floresta";
+        assert!(matches!(ler_mural(texto), Err(ErroMural::Recompensa(_))));
+    }
+
+    // Borda: texto vazio não tem linhas, então não tem linha ruim
+    #[test]
+    fn mural_vazio_e_valido() {
+        assert_eq!(ler_mural(""), Ok(Vec::new()));
+    }
+
+    #[test]
+    fn ranks_seguem_a_ordem_das_variantes() {
+        assert!(Rank::C < Rank::B && Rank::B < Rank::A && Rank::A < Rank::S);
+    }
+
+    // --- 8. Testes: filtros ---------------------------------
+
+    // Os nomes das missões que passaram, para comparar com um array de `&str`
+    fn nomes<'a>(missoes: &[&'a Missao]) -> Vec<&'a str> {
+        missoes.iter().map(|m| m.nome.as_str()).collect()
+    }
+
+    // A caixa com a closure se chama como uma função: `filtro(&missao)`
+    #[test]
+    fn cada_filtro_sozinho() {
+        let mural = mural();
+        let (slimes, dragao) = (&mural[0], &mural[3]);
+
+        let rank_a = rank_minimo(Rank::A);
+        assert!(rank_a(dragao) && !rank_a(slimes));
+
+        let cem = paga_ao_menos(100);
+        assert!(cem(dragao) && !cem(slimes));
+
+        let sem_montanha = fora_de("Montanha");
+        assert!(sem_montanha(slimes) && !sem_montanha(dragao));
+    }
+
+    #[test]
+    fn filtrar_exige_todos_os_filtros() {
+        let mural = mural();
+        let mut filtros = vec![rank_minimo(Rank::B), paga_ao_menos(150)];
+        let passaram = nomes(&filtrar(&mural, &filtros));
+        assert_eq!(passaram, ["Derrotar o golem", "Enfrentar o dragão"]);
+
+        // Um filtro a mais só pode tirar missões da lista, nunca pôr
+        filtros.push(fora_de("Montanha"));
+        assert_eq!(nomes(&filtrar(&mural, &filtros)), ["Derrotar o golem"]);
+    }
+
+    // Borda: `all` numa lista vazia é `true` (verdade por vacuidade), então tudo passa
+    #[test]
+    fn sem_filtros_passa_tudo() {
+        let mural = mural();
+        assert_eq!(filtrar(&mural, &[]).len(), mural.len());
+    }
+
+    // --- 9. Testes: rodízio e busca ---------------------------------
+
+    #[test]
+    fn rodizio_volta_ao_comeco() {
+        let grupo = ["Frieren", "Fern", "Stark"];
+        let vezes: Vec<&str> = Rodizio::new(&grupo).take(5).collect();
+        assert_eq!(vezes, ["Frieren", "Fern", "Stark", "Frieren", "Fern"]);
+    }
+
+    // Borda: o `?` do `next` devolve `None` antes do `%` dividir por zero
+    #[test]
+    fn rodizio_de_grupo_vazio_termina_logo() {
+        let vazio: [&str; 0] = [];
+        assert_eq!(Rodizio::new(&vazio).next(), None);
+    }
+
+    // Devolve a linha original (com a caixa dela), mesmo buscando em maiúsculas
+    #[test]
+    fn busca_ignora_maiusculas_e_minusculas() {
+        let achadas = buscar("MÍMICO", MURAL);
+        assert_eq!(achadas, ["Selar o Mímico | B | 120 | Masmorra"]);
+    }
+
+    #[test]
+    fn busca_sem_resultado_devolve_vazio() {
+        assert!(buscar("Himmel", MURAL).is_empty());
     }
 }
