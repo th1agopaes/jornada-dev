@@ -5,3 +5,12 @@ edition = "2024"
 
 [dependencies]
 rand = { version = "0.10.4", features = ["chacha"] }
+
+
+# Lints do pacote inteiro (biblioteca, executáveis, `tests/` e exemplos)
+[lints.rust]
+unsafe_code = "forbid" # nada de `unsafe` no curso; `forbid` não deixa nem um `allow` reabrir
+
+[lints.clippy]
+dbg_macro = "warn" # `dbg!` esquecido no meio do código
+todo = "warn"      # `todo!()` esquecido: compila, mas dá panic ao rodar

@@ -4,6 +4,9 @@
 //!
 //! Rolagens de dados na notação de RPG: `2d6+3` são dois dados de 6 faces, mais 3.
 
+// A biblioteca é a API do pacote: Clippy pedante e documentação obrigatória só neste crate
+#![warn(clippy::pedantic, missing_docs)]
+
 use std::error::Error;
 use std::fmt;
 use std::num::ParseIntError;
@@ -100,11 +103,13 @@ fn positivo(texto: &str) -> Result<u8, ErroRolagem> {
 
 impl Rolagem {
     /// O menor total possível: todos os dados em 1.
+    #[must_use]
     pub fn minimo(&self) -> u32 {
         u32::from(self.quantidade) + u32::from(self.bonus)
     }
 
     /// O maior total possível: todos os dados na face mais alta.
+    #[must_use]
     pub fn maximo(&self) -> u32 {
         u32::from(self.quantidade) * u32::from(self.faces) + u32::from(self.bonus)
     }
