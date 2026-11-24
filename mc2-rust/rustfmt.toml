@@ -1,0 +1,4 @@
+# Formatação do MC2: o padrão do rustfmt (100 colunas), com três escolhas explícitas
+style_edition = "2024"          # o mesmo estilo do `cargo fmt`, até chamando o `rustfmt` direto
+newline_style = "Unix"          # fim de linha `\n`, mesmo se um editor do Windows salvar o arquivo
+use_field_init_shorthand = true # `Golpe { poder: poder }` vira `Golpe { poder }`
