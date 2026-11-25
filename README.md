@@ -7,10 +7,10 @@ Meu laboratório para aprender computação **do zero, na prática**: cada pasta
 
 ## 📚 Minicursos
 
-| #   | Minicurso           | Pasta                                  | Situação        |
-| --- | ------------------- | -------------------------------------- | --------------- |
-| MC1 | TypeScript do zero  | [`mc1-typescript/`](mc1-typescript/)   | ✅ Concluído    |
-| MC2 | Rust do zero        | [`mc2-rust/`](mc2-rust/)                           | 🚧 Em andamento |
+| #   | Minicurso          | Pasta                                | Situação     |
+| --- | ------------------ | ------------------------------------ | ------------ |
+| MC1 | TypeScript do zero | [`mc1-typescript/`](mc1-typescript/) | ✅ Concluído |
+| MC2 | Rust do zero       | [`mc2-rust/`](mc2-rust/)             | ✅ Concluído |
 
 ## 🛠️ Como trabalho neste repositório
 
