@@ -1,0 +1,4 @@
+# O padrão do rustfmt (100 colunas), com três escolhas explícitas, as mesmas do `mc2-rust`
+style_edition = "2024"
+newline_style = "Unix"          # `\n` mesmo se um editor do Windows salvar o arquivo
+use_field_init_shorthand = true # `Ocorrencia { linha: linha }` vira `Ocorrencia { linha }`
