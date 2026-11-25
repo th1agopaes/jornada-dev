@@ -8,14 +8,13 @@
 
 use std::error::Error;
 use std::fmt;
-
 use std::fs;
 use std::io::Write;
 
 /// Como a busca trata maiúsculas e minúsculas.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Caixa {
-    /// `"fogo"` não casa com `"Fogo"` (o padrão, como no `grep`)
+    /// `"fogo"` não casa com `"Fogo"` (o padrão, como no `grep`).
     Diferenciar,
     /// `"fogo"` casa com `"Fogo"` e `"FOGO"`, inclusive com acento (`"mímico"` e `"MÍMICO"`).
     Ignorar,
@@ -63,7 +62,7 @@ pub fn buscar<'a>(
 
     texto
         .lines()
-        .enumerate()
+        .enumerate() // antes do `filter`: depois dele, a posição original se perde
         .filter(move |(_, linha)| match caixa {
             Caixa::Diferenciar => linha.contains(consulta),
             Caixa::Ignorar => linha.to_lowercase().contains(&consulta_min),
@@ -238,7 +237,7 @@ Esqueleto: anda com o MÍMICO.";
     // --- buscar ---
 
     #[test]
-    fn diferencia_maiuscula_por_padrao() {
+    fn diferencia_maiusculas_por_padrao() {
         assert_eq!(numeros("fogo", Caixa::Diferenciar), [1]);
         assert_eq!(numeros("Fogo", Caixa::Diferenciar), [3]);
     }
@@ -277,7 +276,7 @@ Esqueleto: anda com o MÍMICO.";
         assert_eq!(linhas, ["Golem"]);
     }
 
-    // --- Config::build---
+    // --- Config::build ---
 
     #[test]
     fn le_consulta_e_arquivo_com_os_padroes() {
