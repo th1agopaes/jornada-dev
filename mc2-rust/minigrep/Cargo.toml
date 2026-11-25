@@ -1,0 +1,16 @@
+[package]
+name = "minigrep"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[lints.rust]
+unsafe_code = "forbid" # nem um `#[allow]` reabre; por isso os testes não mexem no ambiente
+missing_docs = "warn"  # crate ou item público sem `//!` ou `///` vira aviso
+
+[lints.clippy]
+# Grupo com prioridade -1: aplicado antes, para os lints avulsos abaixo poderem sobrescrevê-lo
+pedantic = { level = "warn", priority = -1 }
+dbg_macro = "warn"
+todo = "warn"
