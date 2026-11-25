@@ -12,6 +12,14 @@ Meu laboratório para aprender computação **do zero, na prática**: cada pasta
 | MC1 | TypeScript do zero | [`mc1-typescript/`](mc1-typescript/) | ✅ Concluído |
 | MC2 | Rust do zero       | [`mc2-rust/`](mc2-rust/)             | ✅ Concluído |
 
+## 🚀 Projetos
+
+Projetos pequenos vão para `projetos/`; os grandes ganham repositório próprio.
+
+| Projeto                                                        | Tecnologia | Repositório                                                      | Situação        |
+| -------------------------------------------------------------- | ---------- | ---------------------------------------------------------------- | --------------- |
+| Columbina Auto: jogo top-down com engine 2D própria (Sandbina) | Rust       | [`columbina-auto`](https://github.com/th1agopaes/columbina-auto) | 🚧 Em andamento |
+
 ## 🛠️ Como trabalho neste repositório
 
 - **Uma branch por módulo** (`mcN/modulo-N`) → commits pequenos → Pull Request → squash merge.
