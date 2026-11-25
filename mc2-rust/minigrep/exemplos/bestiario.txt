@@ -1,0 +1,9 @@
+Bestiário da Guilda: registro de campo dos monstros da masmorra.
+
+Slime: fraco contra fogo; aparece em bandos perto da água.
+Mímico: finge ser um baú de tesouro. Teste todo baú antes de abrir.
+Dragão Vermelho: imune a fogo; foge quando perde metade da vida.
+Golem de Pedra: lento, mas resiste a espadas. Use magia.
+Fênix: renasce do Fogo e só cai com gelo.
+Esqueleto: some com luz sagrada; o MÍMICO costuma andar com eles.
+Lich: chefe do último andar; volta se o filactério não for destruído.

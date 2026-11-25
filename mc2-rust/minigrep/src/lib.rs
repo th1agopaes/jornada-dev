@@ -9,6 +9,9 @@
 use std::error::Error;
 use std::fmt;
 
+use std::fs;
+use std::io::Write;
+
 /// Como a busca trata maiúsculas e minúsculas.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Caixa {
@@ -178,6 +181,33 @@ impl fmt::Display for ErroArgs {
 
 impl Error for ErroArgs {}
 
+/// Lê o arquivo da configuração e escreve em `saida` as linhas que casaram (o `run` do livro).
+///
+/// Devolve quantas linhas casaram; o executável usa esse número no código de saída.
+/// `saida` é a tela no executável e um `Vec<u8>` nos testes.
+///
+/// # Errors
+///
+/// Falha se o arquivo não puder ser lido (não existe, sem permissão ou não é UTF-8) ou se a
+/// escrita em `saida` falhar.
+pub fn executar(config: &Config, saida: &mut impl Write) -> Result<usize, Box<dyn Error>> {
+    // O `io::Error` sozinho não diz qual arquivo falhou; o `?` converte a `String` pelo `From`
+    let texto = fs::read_to_string(&config.arquivo)
+        .map_err(|erro| format!("{}: {erro}", config.arquivo))?;
+
+    let mut total = 0;
+    for Ocorrencia { numero, linha } in buscar(&config.consulta, &texto, config.caixa) {
+        if config.numerar {
+            writeln!(saida, "{numero}:{linha}")?;
+        } else {
+            writeln!(saida, "{linha}")?;
+        }
+        total += 1;
+    }
+
+    Ok(total)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -187,6 +217,9 @@ Slime: fraco contra fogo.
 Mímico: finge ser um baú.
 Fênix: renasce do Fogo.
 Esqueleto: anda com o MÍMICO.";
+
+    // O exemplo do repositório também é a fixture dos testes de `executar`
+    const BESTIARIO: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/exemplos/bestiario.txt");
 
     fn numeros(consulta: &str, caixa: Caixa) -> Vec<usize> {
         buscar(consulta, TEXTO, caixa)
@@ -289,5 +322,44 @@ Esqueleto: anda com o MÍMICO.";
     fn recusa_opcao_desconhecida() {
         let erro = config(&["-x", "fogo", "bestiario.txt"]);
         assert_eq!(erro, Err(ErroArgs::OpcaoDesconhecida("-x".to_string())));
+    }
+
+    // --- executar ---
+
+    #[test]
+    fn executar_escreve_as_linhas_e_conta() {
+        let config = Config {
+            consulta: "fogo".to_string(),
+            arquivo: BESTIARIO.to_string(),
+            caixa: Caixa::Ignorar,
+            numerar: true,
+        };
+        let mut saida = Vec::new();
+
+        let total = executar(&config, &mut saida).expect("o bestiário existe");
+
+        assert_eq!(total, 3);
+        let esperado = "\
+3:Slime: fraco contra fogo; aparece em bandos perto da água.
+5:Dragão Vermelho: imune a fogo; foge quando perde metade da vida.
+7:Fênix: renasce do Fogo e só cai com gelo.
+";
+        assert_eq!(String::from_utf8(saida).expect("saída em UTF-8"), esperado);
+    }
+
+    #[test]
+    fn executar_diz_qual_arquivo_falhou() {
+        let config = Config {
+            consulta: "fogo".to_string(),
+            arquivo: "nao-existe.txt".to_string(),
+            caixa: Caixa::Diferenciar,
+            numerar: false,
+        };
+
+        let erro = executar(&config, &mut Vec::new()).expect_err("o arquivo não existe");
+
+        // Depois do nome, a mensagem é do sistema operacional e muda entre Linux e Windows
+        let mensagem = erro.to_string();
+        assert!(mensagem.starts_with("nao-existe.txt: "), "veio: {mensagem}");
     }
 }
